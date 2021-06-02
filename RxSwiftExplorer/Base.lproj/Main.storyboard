@@ -67,6 +67,9 @@
                                         <state key="normal" title="Login">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="onLoginButtonWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="out-jn-yVR"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <edgeInsets key="layoutMargins" top="10" left="20" bottom="10" right="20"/>

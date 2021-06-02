@@ -14,8 +14,8 @@ class LoginVC: UIViewController {
   // MARK: - Properties
   let disposeBag = DisposeBag()
   let loginModel = LoginFormVM()
-  var isPasswordTouched = false
   var isEmailTouched = false
+  var isPasswordTouched = false
 
   // MARK: - IBOutlets
   @IBOutlet weak var emailTextField: UITextField!
@@ -48,13 +48,46 @@ extension LoginVC {
 
     emailTextField
       .rx
-      .controlEvent([.editingDidEnd, .editingChanged])
+      .controlEvent([.editingDidEnd])
       .asObservable()
       .subscribe(onNext: { [weak self] _ in
         guard let `self` = self,
               let isEmailValid = self.emailTextField.text?.validateEmail() else { return }
 
-        self.emailErrorHint.isHidden = self.isEmailTouched && isEmailValid
+        if !self.isEmailTouched {
+          self.isEmailTouched = true
+          self.emailErrorHint.isHidden = isEmailValid
+        }
+
+      })
+      .disposed(by: disposeBag)
+
+    emailTextField
+      .rx
+      .controlEvent([.editingChanged])
+      .asObservable()
+      .subscribe(onNext: { [weak self] _ in
+        guard let `self` = self,
+              let isEmailValid = self.emailTextField.text?.validateEmail() else { return }
+        if self.isEmailTouched {
+          self.emailErrorHint.isHidden = isEmailValid
+        }
+
+      })
+      .disposed(by: disposeBag)
+
+    passwordTextField
+      .rx
+      .controlEvent(.editingDidEnd)
+      .asObservable()
+      .subscribe(onNext: { [weak self] _ in
+        guard let `self` = self,
+              let isPasswordValid = self.passwordTextField.text?.validatePassword() else { return }
+
+        if !self.isPasswordTouched {
+          self.isPasswordTouched = true
+          self.passwordErrorHint.isHidden = isPasswordValid
+        }
       })
       .disposed(by: disposeBag)
 
@@ -66,7 +99,9 @@ extension LoginVC {
         guard let `self` = self,
               let isPasswordValid = self.passwordTextField.text?.validatePassword() else { return }
 
-        self.passwordErrorHint.isHidden = isPasswordValid
+        if self.isPasswordTouched {
+          self.passwordErrorHint.isHidden = isPasswordValid
+        }
       })
       .disposed(by: disposeBag)
 
@@ -102,7 +137,8 @@ extension LoginVC {
   }
 
   func setupPasswordIcon() {
-    if let passwordIcon = UIImage(systemName: "eye"), let passwordIconSlash = UIImage(systemName: "eye.slash") {
+    if let passwordIcon = UIImage(systemName: "eye"),
+       let passwordIconSlash = UIImage(systemName: "eye.slash") {
       let imageView = UIImageView(frame: CGRect(x: 15, y: 13, width: 20, height: 15))
       passwordTextField.tintColor = .lightGray
       imageView.image = passwordIcon
@@ -129,6 +165,27 @@ extension LoginVC {
 }
 
 // MARK: - IBActions
+extension LoginVC {
+  @IBAction func onLoginButton(sender: UIButton) {
+    let alert = UIAlertController(title: "Login",
+                                  message: "Sending data...",
+                                  preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "OK",
+                                  style: .default,
+                                  handler: { action in
+                                    switch action.style {
+                                    case .default:
+                                      print("default")
+                                    case .cancel:
+                                      print("cancel")
+                                    case .destructive:
+                                      print("destructive")
+                                    }
+                                  }))
+    self.present(alert, animated: true)
+
+  }
+}
 // MARK: - Navigation
 // MARK: - Network Manager calls
 // MARK: - Extensions
