@@ -25,6 +25,8 @@ class LoginVC: UIViewController {
   @IBOutlet weak var passwordErrorHint: UILabel!
 
   @IBOutlet weak var loginButton: UIButton!
+
+  @IBOutlet weak var wrapper: UIStackView!
 }
 
 // MARK: - Life cycle
@@ -134,6 +136,20 @@ extension LoginVC {
     loginButton.alpha = 0.5
 
     setupPasswordIcon()
+    initialAnimation()
+  }
+  func initialAnimation() {
+    wrapper.isHidden = true
+    UIView.animate(withDuration: 0.7,
+                   delay: 0.0,
+                   usingSpringWithDamping: 0.9,
+                   initialSpringVelocity: 1,
+                   options: [],
+                   animations: {
+                    self.wrapper.isHidden = false
+                    self.wrapper.layoutIfNeeded()
+                   },
+                   completion: nil)
   }
 
   func setupPasswordIcon() {
@@ -186,6 +202,7 @@ extension LoginVC {
 
   }
 }
+
 // MARK: - Navigation
 // MARK: - Network Manager calls
 // MARK: - Extensions

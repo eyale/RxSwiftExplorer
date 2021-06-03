@@ -89,6 +89,7 @@
                         <outlet property="loginButton" destination="rN4-zv-oMa" id="gpT-Tp-tJ2"/>
                         <outlet property="passwordErrorHint" destination="hbA-pL-hIb" id="yMu-j6-DVn"/>
                         <outlet property="passwordTextField" destination="TuK-TM-9w1" id="LeL-PR-1aH"/>
+                        <outlet property="wrapper" destination="nzG-I0-GUD" id="mLP-bW-tGg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
