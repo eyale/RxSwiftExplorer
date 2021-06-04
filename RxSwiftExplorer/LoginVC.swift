@@ -51,7 +51,7 @@ extension LoginVC {
     emailTextField
       .rx
       .controlEvent([.editingDidEnd])
-      .asObservable()
+      .asObservable() // publisher
       .subscribe(onNext: { [weak self] _ in
         guard let `self` = self,
               let isEmailValid = self.emailTextField.text?.validateEmail() else { return }
@@ -67,7 +67,7 @@ extension LoginVC {
     emailTextField
       .rx
       .controlEvent([.editingChanged])
-      .asObservable()
+      .asObservable() // publisher
       .subscribe(onNext: { [weak self] _ in
         guard let `self` = self,
               let isEmailValid = self.emailTextField.text?.validateEmail() else { return }
@@ -81,7 +81,7 @@ extension LoginVC {
     passwordTextField
       .rx
       .controlEvent(.editingDidEnd)
-      .asObservable()
+      .asObservable() // publisher
       .subscribe(onNext: { [weak self] _ in
         guard let `self` = self,
               let isPasswordValid = self.passwordTextField.text?.validatePassword() else { return }
@@ -96,7 +96,7 @@ extension LoginVC {
     passwordTextField
       .rx
       .controlEvent(.editingChanged)
-      .asObservable()
+      .asObservable() // publisher
       .subscribe(onNext: { [weak self] _ in
         guard let `self` = self,
               let isPasswordValid = self.passwordTextField.text?.validatePassword() else { return }
